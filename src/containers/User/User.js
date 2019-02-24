@@ -10,7 +10,8 @@ class User extends Component {
             title: 'User', //title for add form 
             placeholder: "User's name", //placeholder for add form
             activeUser: 'Taq',
-            users: { 'Mo': { 'feed': { 'sports': [] } }, 'Taq': { 'feed': { 'cats': [] } }, 'Liz': { 'feed': { 'bunnies': [] } } }
+            users: { 'Mo': { 'feed': { 'sports': [] } }, 'Taq': { 'feed': { 'cats': [] } }, 'Liz': { 'feed': { 'bunnies': [] } } },
+            input: ' '
         }
     }
 
@@ -20,15 +21,26 @@ class User extends Component {
 
     }
 
+    handleAddClick = (name) => {
+        const newUser = { [name]: { 'feed': null } }
+        const newUsers = Object.assign(this.state.users, newUser)
+        this.setState({ user: newUsers, input: ' ' })
+    }
+
+    handleOnchange = (event) => {
+        this.setState({ input: event.target.value })
+        console.log(this.state.input)
+    }
+
     render() {
 
-        const { placeholder, title, activeUser, users } = this.state;
+        const { placeholder, title, activeUser, users, input } = this.state;
         const data = { activeUser, users }
         return <>
             <div className="container-fluid">
                 <Row form>
                     <Col>
-                        <AddNew title={title} placeholder={placeholder} />
+                        <AddNew title={title} placeholder={placeholder} input={input} onClick={this.handleAddClick} onChange={this.handleOnchange} />
                     </Col>
                     <Col>
                         <UserList data={data} onClick={this.handleListClick} />

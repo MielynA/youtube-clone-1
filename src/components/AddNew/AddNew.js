@@ -5,12 +5,13 @@ import { InputGroup, InputGroupAddon, Input, Button } from 'reactstrap';
 const AddNew = (props) => {
 const placeholder = props.placeholder
 const title = props.title
+const input = props.input
     return <>
     <h4>Create a new {title} </h4>
         <InputGroup>
-            <Input placeholder={placeholder}/>
+            <Input type='text' value={input} placeholder={placeholder} onChange={e => props.onChange(e)}/>
             <InputGroupAddon addonType="append">
-                <Button> Add </Button>
+                <Button onClick={e => props.onClick(input)}> Add </Button>
             </InputGroupAddon>
         </InputGroup>
     </>
