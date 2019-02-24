@@ -8,6 +8,7 @@ const UserList = (props) => {
     console.log(users)
 
     return <>
+        <h4>User List</h4>
         {users.map((user, index) => {
             let selected = ' '
             let buttonClass = `list-group-item list-group-item-action d-flex justify-content-between align-items-center`
@@ -16,7 +17,7 @@ const UserList = (props) => {
                 buttonClass = `list-group-item list-group-item-action active d-flex justify-content-between align-items-center`
             }
 
-            return <div className="list-group">
+            return <div className="list-group" key={index}>
                 <button type="button" className={buttonClass}>
                     {user}
                     <small>{selected}</small>
