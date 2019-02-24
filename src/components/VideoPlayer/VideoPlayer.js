@@ -1,6 +1,5 @@
 import React from 'react'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './videoPlayer.css';
+// import './videoPlayer.css';
 // import axios from 'axios';
 // const YOUR_API_KEY = 'AIzaSyC2nI7i0QvsKwLt21JaVW3I-JyKOQDrsx8'
 //import moment from 'moment';
@@ -22,9 +21,10 @@ const VideoPlayer = ({ id }) => {
     // in the meantime instead passing the id after embed/ 
     // put example id 
 
-    
+    console.log('rendered')
   
     return (
+      
       <React.Fragment>
       <iframe allowFullScreen title='yt-video' type="text/html" width="640" height="360" 
     src={link} frameBorder="0"></iframe>
