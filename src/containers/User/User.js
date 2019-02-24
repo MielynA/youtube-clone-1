@@ -11,7 +11,8 @@ class User extends Component {
             placeholder: "User's name", //placeholder for add form
             activeUser: 'Taq',
             users: { 'Mo': { 'feed': { 'sports': [] } }, 'Taq': { 'feed': { 'cats': [] } }, 'Liz': { 'feed': { 'bunnies': [] } } },
-            input: ' '
+            input: '',
+            alertOn: false
         }
     }
 
@@ -21,10 +22,21 @@ class User extends Component {
 
     }
 
-    handleAddClick = (name) => {
-        const newUser = { [name]: { 'feed': null } }
-        const newUsers = Object.assign(this.state.users, newUser)
-        this.setState({ user: newUsers, input: ' ' })
+    handleAddClick = (input) => {
+        const upperCase = input[0].toUpperCase();
+        const lowerCase = input.slice(1);
+        const name = upperCase.concat('', lowerCase);
+        const userArr = Object.keys(this.state.users);
+        for (let i = 0; i < userArr.length; i++) {
+            if (name === userArr[i]) {
+                console.log(userArr[i])
+                this.setState({ alertOn: true, input: '' })
+            } else {
+                const newUser = { [name]: { 'feed': null } }
+                const newUsers = Object.assign(this.state.users, newUser)
+                this.setState({ user: newUsers, input: '' })
+            }
+        }
     }
 
     handleOnchange = (event) => {
