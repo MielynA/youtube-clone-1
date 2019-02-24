@@ -17,7 +17,7 @@ const UserList = (props) => {
                 buttonClass = `list-group-item list-group-item-action active d-flex justify-content-between align-items-center`
             }
 
-            return <div className="list-group" key={index}>
+            return <div className="list-group" key={index} onClick={e => (props.onClick(index))}>
                 <button type="button" className={buttonClass}>
                     {user}
                     <small>{selected}</small>
