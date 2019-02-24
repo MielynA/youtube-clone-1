@@ -1,7 +1,7 @@
 import React from 'react';
 
 const UserList = (props) => {
-    const data = { 'activeUser': 'Taq', 'users': { 'Mo': { 'feed': { 'sports': [] } }, 'Taq': { 'feed': { 'cats': [] } }, 'Liz': { 'feed': { 'bunnies': [] } } } };
+    const data = props.data;
     const activeUser = data.activeUser;
     console.log(activeUser)
     const users = Object.keys(data.users);
