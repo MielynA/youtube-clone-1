@@ -39,7 +39,7 @@ class User extends Component {
             const userArr = Object.keys(this.state.users);
             if (userArr.length === 0) {
                 const newUser = { [name]: { 'feed': null } }
-                this.setState({ users: newUser, input: '', alertOn: false })
+                this.setState({ users: newUser, input: '', alertOn: false, activeUser: name })
             }
             else {
                 for (let i = 0; i < userArr.length; i++) {
@@ -59,7 +59,6 @@ class User extends Component {
 
     handleOnchange = (event) => {
         this.setState({ input: event.target.value })
-        console.log(this.state.input)
     }
 
     render() {
