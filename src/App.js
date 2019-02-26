@@ -6,8 +6,6 @@ import Search from './components/Search/Search'
 
 class App extends Component {
 
- 
-
   render() {
     return (
       <React.Fragment>
