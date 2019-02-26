@@ -9,8 +9,8 @@ class User extends Component {
         this.state = {
             title: 'User', //title for add form 
             placeholder: "User's name", //placeholder for add form
-            activeUser: '',
-            users: {},
+            activeUser: 'Default',
+            users: { 'Default': { 'feed': { 'music': [] } } },
             input: '',
             alertOn: false,
             error: '' //error message for alert, either invalid entry or existing user
@@ -25,33 +25,28 @@ class User extends Component {
     handleListClick = (index) => {
         const userArr = Object.keys(this.state.users);
         this.setState({ activeUser: userArr[index] });
-
     }
 
     handleAddClick = (input) => {
-        if (input === '' || input[0] === ' ') {
+        const trimedInput = input.trim() //remove unnecessary spaces
+        if (trimedInput === '') {
             this.setState({ alertOn: true, input: '', error: 'Invalid Input, Please Enter Valid Name.' })
         }
         else {
-            const upperCase = input[0].toUpperCase();
-            const lowerCase = input.slice(1);
+            const upperCase = trimedInput[0].toUpperCase();
+            const lowerCase = trimedInput.slice(1);
             const name = upperCase.concat('', lowerCase);
             const userArr = Object.keys(this.state.users);
-            if (userArr.length === 0) {
-                const newUser = { [name]: { 'feed': null } }
-                this.setState({ users: newUser, input: '', alertOn: false, activeUser: name })
-            }
-            else {
-                for (let i = 0; i < userArr.length; i++) {
+            for (let i = 0; i < userArr.length; i++) {
 
-                    if (name === userArr[i]) {
-                        this.setState({ error: 'Name Already Exists, Try A Different Name.', alertOn: true, input: '' })
-                    }
-                    else {
-                        const newUser = { [name]: { 'feed': null } }
-                        const newUsers = Object.assign(this.state.users, newUser)
-                        this.setState({ user: newUsers, input: '', alertOn: false })
-                    }
+                if (name === userArr[i]) { //check if user exist
+                    this.setState({ alertOn: true, input: '', error: 'Name Already Exists, Try A Different Name.' })
+                    return;
+                }
+                else { //add new user
+                    const newUser = { [name]: { 'feed': null } }
+                    const newUsers = Object.assign(this.state.users, newUser)
+                    this.setState({ users: newUsers, input: '', alertOn: false })
                 }
             }
         }
