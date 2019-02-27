@@ -4,3 +4,27 @@
    padding: 20px;
 
 }
+
+.ul { 
+    list-style-type: circle;
+}
+
+.videoFrame {
+   padding: 20px;
+   margin: 20px;
+
+}
+.row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    /* margin-right: -20px; */
+    margin-left: -4px;
+}
+
+.profile-image {
+    height: 10%;
+    width: 10%;
+    border-radius: 50%;
+}

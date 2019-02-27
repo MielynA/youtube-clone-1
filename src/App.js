@@ -16,7 +16,7 @@ class App extends Component {
         <>
           <Search />
           <Route path='/results/:query' exact component={SearchResults} />
-          <Route path='/video/:video_id' exact component={Videoplayer} />
+          <Route path='/video/:video_id' exact component={VideoPlayer} />
         </>
         </BrowserRouter>
       </div>
