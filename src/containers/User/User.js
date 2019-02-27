@@ -28,6 +28,7 @@ class User extends Component {
     }
 
     handleAddClick = (input) => {
+
         const trimedInput = input.trim() //remove unnecessary spaces
         if (trimedInput === '') {
             this.setState({ alertOn: true, input: '', error: 'Invalid Input, Please Enter Valid Name.' })
@@ -67,7 +68,7 @@ class User extends Component {
             <div className="container-fluid">
                 <Row form>
                     <Col>
-                        <AddNew title={title} placeholder={placeholder} input={input} onClick={this.handleAddClick} onChange={this.handleOnchange} />
+                        <AddNew title={title} placeholder={placeholder} input={input} onKeyPress={this.handleAddClick} onClick={this.handleAddClick} onChange={this.handleOnchange} />
                     </Col>
                     <Col>
                         <UserList data={data} onClick={this.handleListClick} />
