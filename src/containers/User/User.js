@@ -60,7 +60,11 @@ class User extends Component {
     }
 
     handleDeleteAll = () => {
-        this.setState({ users: { 'Default': { 'feed': { 'music': [] } } } });
+        if (this.state.alertOn === false) { //alert before deleting all
+            this.setState({ alertOn: true, error: 'You are about to DELETE ALL USERS. To continue click Delete All Users again. To cancel close this alert' })
+        } else { //second click, delete all
+            this.setState({ users: { 'Default': { 'feed': { 'music': [] } } }, alertOn: false, activeUser: 'Default' });
+        }
     }
 
     deleteUser = (index) => { //delete user on X click
@@ -68,14 +72,18 @@ class User extends Component {
         const newUsers = this.state.users
         const userToDelete = userArr[index + 1]
         delete newUsers[userToDelete]
-        this.setState({ users: newUsers })
+        if (userToDelete === this.state.activeUser) { //if the user deleted is the active user, then set active user to default
+            this.setState({ users: newUsers, activeUser: 'Default' })
+        } else {
+            this.setState({ users: newUsers })
+        }
     }
 
     deleteUserButton = () => {//delete individual user mode/view
         if (this.state.deleteMode.show === false) {
             this.setState({ deleteMode: { show: true, display: 'Done' } })
         } else {
-            this.setState({ deleteMode: { show: false, display: 'Delete User' }, activeUser: 'Default' })
+            this.setState({ deleteMode: { show: false, display: 'Delete User' } })
         }
 
     }

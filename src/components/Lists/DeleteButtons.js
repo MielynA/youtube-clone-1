@@ -7,7 +7,7 @@ const DeleteButtons = (props) => {
     const buttonMess = props.deleteMode.display;
     return <>
         <div className='buttons'>
-            <Button color="secondary" size="sm" onClick={e => (props.onClick())}>Clear all</Button>{' '}
+            <Button color="secondary" size="sm" onClick={e => (props.onClick())}>Clear All Users</Button>{' '}
             <Button color="secondary" size="sm" onClick={e => (props.click())}>{buttonMess}</Button>
         </div>
     </>
