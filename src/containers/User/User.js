@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { UserList } from '../../components/Lists/UserList';
 import { AddNew } from '../../components/AddNew/AddNew';
+import { DeleteButtons } from '../../components/Lists/DeleteButtons'
 import { Row, Col, Alert } from 'reactstrap';
 
 class User extends Component {
@@ -31,7 +32,7 @@ class User extends Component {
 
         const trimedInput = input.trim() //remove unnecessary spaces
         if (trimedInput === '') {
-            this.setState({ alertOn: true, input: '', error: 'Invalid Input, Please Enter Valid Name.' })
+            this.setState({ alertOn: true, input: '', error: 'Invalid Input, Please Enter Valid Name.' });
         }
         else {
             const upperCase = trimedInput[0].toUpperCase();
@@ -41,20 +42,24 @@ class User extends Component {
             for (let i = 0; i < userArr.length; i++) {
 
                 if (name === userArr[i]) { //check if user exist
-                    this.setState({ alertOn: true, input: '', error: 'Name Already Exists, Try A Different Name.' })
+                    this.setState({ alertOn: true, input: '', error: 'Name Already Exists, Try A Different Name.' });
                     return;
                 }
                 else { //add new user
                     const newUser = { [name]: { 'feed': null } }
                     const newUsers = Object.assign(this.state.users, newUser)
-                    this.setState({ users: newUsers, input: '', alertOn: false })
+                    this.setState({ users: newUsers, input: '', alertOn: false });
                 }
             }
         }
     }
 
     handleOnchange = (event) => {
-        this.setState({ input: event.target.value })
+        this.setState({ input: event.target.value });
+    }
+
+    handleDeleteAll = () => {
+        this.setState({ users: { 'Default': { 'feed': { 'music': [] } } } });
     }
 
     render() {
@@ -69,6 +74,7 @@ class User extends Component {
                 <Row form>
                     <Col>
                         <AddNew title={title} placeholder={placeholder} input={input} onKeyPress={this.handleAddClick} onClick={this.handleAddClick} onChange={this.handleOnchange} />
+                        <DeleteButtons onClick={this.handleDeleteAll} />
                     </Col>
                     <Col>
                         <UserList data={data} onClick={this.handleListClick} />
