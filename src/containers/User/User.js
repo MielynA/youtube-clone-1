@@ -63,8 +63,10 @@ class User extends Component {
     saveStateToLocalStorage() {
         // for every item in React state
         for (let key in this.state) {
-            // save to localStorage
-            localStorage.setItem(key, JSON.stringify(this.state[key]));
+            if (key === 'users' || key === 'activeUser') { //only remember users and active user
+                // save to localStorage
+                localStorage.setItem(key, JSON.stringify(this.state[key]));
+            }
         }
     }
 
