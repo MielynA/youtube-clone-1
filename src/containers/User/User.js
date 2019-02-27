@@ -21,6 +21,53 @@ class User extends Component {
         this.onDismiss = this.onDismiss.bind(this);
     }
 
+    componentDidMount() {
+        this.hydrateStateWithLocalStorage();
+        // add event listener to save state to localStorage
+        // when user leaves/refreshes the page
+        window.addEventListener(
+            "beforeunload",
+            this.saveStateToLocalStorage.bind(this)
+        );
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener(
+            "beforeunload",
+            this.saveStateToLocalStorage.bind(this)
+        );
+
+        // saves if component has a chance to unmount
+        this.saveStateToLocalStorage();
+    }
+
+    hydrateStateWithLocalStorage() {
+        // for all items in state
+        for (let key in this.state) {
+            // if the key exists in localStorage
+            if (localStorage.hasOwnProperty(key)) {
+                // get the key's value from localStorage
+                let value = localStorage.getItem(key);
+                // parse the localStorage string and setState
+                try {
+                    value = JSON.parse(value);
+                    this.setState({ [key]: value });
+                } catch (e) {
+                    // handle empty string
+                    this.setState({ [key]: value });
+                }
+            }
+        }
+    }
+
+    saveStateToLocalStorage() {
+        // for every item in React state
+        for (let key in this.state) {
+            // save to localStorage
+            localStorage.setItem(key, JSON.stringify(this.state[key]));
+        }
+    }
+
     onDismiss() {
         this.setState({ alertOn: false });//close alert
     }
@@ -28,6 +75,7 @@ class User extends Component {
     handleListClick = (index) => { //active user selection
         const userArr = Object.keys(this.state.users);
         this.setState({ activeUser: userArr[index] });
+        // localStorage.setItem('activeUser', userArr[index]);
     }
 
     handleAddClick = (input) => {
@@ -50,6 +98,7 @@ class User extends Component {
                     const newUser = { [name]: { 'feed': null } }
                     const newUsers = Object.assign(this.state.users, newUser)
                     this.setState({ users: newUsers, input: '', alertOn: false });
+                    // localStorage.setItem('users', JSON.stringify(newUsers));
                 }
             }
         }
@@ -61,7 +110,7 @@ class User extends Component {
 
     handleDeleteAll = () => {
         if (this.state.alertOn === false) { //alert before deleting all
-            this.setState({ alertOn: true, error: 'You are about to DELETE ALL USERS. To continue click Delete All Users again. To cancel close this alert' })
+            this.setState({ alertOn: true, error: 'You are about to DELETE ALL USERS. To continue click Delete All Users again. To cancel close this alert.' })
         } else { //second click, delete all
             this.setState({ users: { 'Default': { 'feed': { 'music': [] } } }, alertOn: false, activeUser: 'Default' });
         }
@@ -74,8 +123,10 @@ class User extends Component {
         delete newUsers[userToDelete]
         if (userToDelete === this.state.activeUser) { //if the user deleted is the active user, then set active user to default
             this.setState({ users: newUsers, activeUser: 'Default' })
+            // localStorage.setItem('users', JSON.stringify(newUsers));
         } else {
             this.setState({ users: newUsers })
+            //localStorage.setItem('users', JSON.stringify(newUsers));
         }
     }
 
