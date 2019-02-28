@@ -7,7 +7,7 @@ const VideoCardSearch = (props) => {
         return (
             <>
                 <div>
-                    <img src={props.video.snippet.thumbnails.medium.url} alt = ''/>
+                    <img src={props.video.snippet.thumbnails.default.url} alt = ''/>
                     <div>
                         <Link to={`/video/${props.video.id.videoId}`}>{props.video.snippet.title}</Link>
                         <p>{props.video.snippet.channelTitle} {moment(props.video.snippet.publishedAt).fromNow()}</p>
