@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {Button, CardBody, Card} from 'reactstrap'
@@ -6,6 +7,7 @@ import './videoPlayer.css';
 import axios from 'axios';
 import moment from 'moment';
 const API_KEY = 'AIzaSyC2nI7i0QvsKwLt21JaVW3I-JyKOQDrsx8';
+
 
 
 class VideoDetails extends React.Component {
@@ -91,7 +93,7 @@ class VideoDetails extends React.Component {
       
     }
     render() {
-      const link = `https://www.youtube.com/embed/RJxau7J6Iio?autoplay=1&fs=1&origin=http://localhost:3000`;
+      const link = `https://www.youtube.com/embed/${this.state.videoId}?autoplay=1&fs=1&origin=http://localhost:3000`;
       const loading = <h1>Loading Comments...</h1>;
       const showComments = this.state.videoComment.map((item, i)=>{
         return <><div><img className='col profile-image' src={item.snippet.topLevelComment.snippet.authorProfileImageUrl} alt=''></img>
