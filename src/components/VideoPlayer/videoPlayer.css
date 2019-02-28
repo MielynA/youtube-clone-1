@@ -10,8 +10,9 @@
 }
 
 .videoFrame {
-   padding: 20px;
+   padding: 20px 20px 20px 100px;
    margin: 20px;
+   display: flex;
 
 }
 .row {
@@ -19,12 +20,16 @@
     display: flex;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    /* margin-right: -20px; */
     margin-left: -4px;
 }
 
 .profile-image {
-    height: 10%;
-    width: 10%;
+    height: 30px;
+    width: 60px;
     border-radius: 50%;
+}
+
+.first-row {
+    padding: 20px 20px 20px 100px;
+    display: flex;
 }
