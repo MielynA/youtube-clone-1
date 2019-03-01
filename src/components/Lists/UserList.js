@@ -3,8 +3,10 @@ import React from 'react';
 
 const UserList = (props) => {
     const data = props.data;
+    console.log(data)
     const activeUser = data.activeUser;
     const users = Object.keys(data.users);
+    console.log(users)
 
     return <>
         <h4>User List</h4>

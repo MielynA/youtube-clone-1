@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { UserList } from '../../components/Lists/UserList';
 import { AddNew } from '../../components/AddNew/AddNew';
-import { DeleteButtons } from '../../components/Lists/DeleteButtons'
-import { DeleteList } from '../../components/Lists/DeleteList'
+import { DeleteButtons } from '../../components/Lists/DeleteButtons';
+import { DeleteList } from '../../components/Lists/DeleteList';
+import Storage from '../../Services/storage'
 import { Row, Col, Alert } from 'reactstrap';
 
 class User extends Component {
@@ -11,8 +12,7 @@ class User extends Component {
         this.state = {
             title: 'User', //title for add form 
             placeholder: "User's name", //placeholder for add form
-            activeUser: 'Default',
-            users: { 'Default': { 'feed': { 'music': [] } } },
+            data: { activeUser: 'Default', users: { 'Default': { 'feed': { 'music': [] } } } }, //app data
             input: '',
             alertOn: false,
             error: '', //error message for alert, either invalid entry or existing user
@@ -22,62 +22,51 @@ class User extends Component {
     }
 
     componentDidMount() {
-        this.hydrateStateWithLocalStorage();
-        // add event listener to save state to localStorage
-        // when user leaves/refreshes the page
+        Storage.getData()
+            .then(localdata => {
+                if (localdata !== null) {
+                    this.setState({ data: localdata });
+                } else {
+                    // handle empty string
+                    this.setState({ data: this.state.data });
+                }
+            }
+            );
         window.addEventListener(
             "beforeunload",
-            this.saveStateToLocalStorage.bind(this)
+            this.saveStateToData.bind(this)
         );
+
     }
 
     componentWillUnmount() {
         window.removeEventListener(
             "beforeunload",
-            this.saveStateToLocalStorage.bind(this)
+            this.saveStateToData.bind(this)
         );
-
         // saves if component has a chance to unmount
-        this.saveStateToLocalStorage();
+        this.saveStateToData(this.state)
+            .then(result => {
+                console.log(result)
+            });
     }
 
-    hydrateStateWithLocalStorage() {
-        // for all items in state
-        for (let key in this.state) {
-            // if the key exists in localStorage
-            if (localStorage.hasOwnProperty(key)) {
-                // get the key's value from localStorage
-                let value = localStorage.getItem(key);
-                // parse the localStorage string and setState
-                try {
-                    value = JSON.parse(value);
-                    this.setState({ [key]: value });
-                } catch (e) {
-                    // handle empty string
-                    this.setState({ [key]: value });
-                }
-            }
-        }
+    saveStateToData = () => {
+        // save to localStorage
+        Storage.saveData('data', (this.state.data))
+            .then(result => {
+                console.log('data', result)
+            })
     }
 
-    saveStateToLocalStorage() {
-        // for every item in React state
-        for (let key in this.state) {
-            if (key === 'users' || key === 'activeUser') { //only remember users and active user
-                // save to localStorage
-                localStorage.setItem(key, JSON.stringify(this.state[key]));
-            }
-        }
-    }
 
     onDismiss() {
         this.setState({ alertOn: false });//close alert
     }
 
     handleListClick = (index) => { //active user selection
-        const userArr = Object.keys(this.state.users);
-        this.setState({ activeUser: userArr[index] });
-        // localStorage.setItem('activeUser', userArr[index]);
+        const userArr = Object.keys(this.state.data.users);
+        this.setState({ data: { activeUser: userArr[index], users: this.state.data.users } });
     }
 
     handleAddClick = (input) => {
@@ -89,7 +78,7 @@ class User extends Component {
             const upperCase = trimedInput[0].toUpperCase();
             const lowerCase = trimedInput.slice(1);
             const name = upperCase.concat('', lowerCase); //name with first letter upper case
-            const userArr = Object.keys(this.state.users);
+            const userArr = Object.keys(this.state.data.users);
             for (let i = 0; i < userArr.length; i++) {
 
                 if (name === userArr[i]) { //check if user exist
@@ -98,9 +87,8 @@ class User extends Component {
                 }
                 else { //add new user
                     const newUser = { [name]: { 'feed': null } }
-                    const newUsers = Object.assign(this.state.users, newUser)
-                    this.setState({ users: newUsers, input: '', alertOn: false });
-                    // localStorage.setItem('users', JSON.stringify(newUsers));
+                    const newUsers = Object.assign(this.state.data.users, newUser)
+                    this.setState({ data: { activeUser: this.state.data.activeUser, users: newUsers }, input: '', alertOn: false });
                 }
             }
         }
@@ -114,21 +102,21 @@ class User extends Component {
         if (this.state.alertOn === false) { //alert before deleting all
             this.setState({ alertOn: true, error: 'You are about to DELETE ALL USERS. To continue click Delete All Users again. To cancel close this alert.' })
         } else { //second click, delete all
-            this.setState({ users: { 'Default': { 'feed': { 'music': [] } } }, alertOn: false, activeUser: 'Default' });
+            this.setState({ data: { 'activeUser': 'Default', users: { 'Default': { 'feed': { 'music': [] } } } }, alertOn: false });
         }
     }
 
     deleteUser = (index) => { //delete user on X click
-        const userArr = Object.keys(this.state.users);
-        const newUsers = this.state.users
+        const userArr = Object.keys(this.state.data.users);
+        const newUsers = this.state.data.users
         const userToDelete = userArr[index + 1]
         delete newUsers[userToDelete]
-        if (userToDelete === this.state.activeUser) { //if the user deleted is the active user, then set active user to default
-            this.setState({ users: newUsers, activeUser: 'Default' })
-            // localStorage.setItem('users', JSON.stringify(newUsers));
+        if (userToDelete === this.state.data.activeUser) { //if the user deleted is the active user, then set active user to default
+            this.setState({ data: { users: newUsers, activeUser: 'Default' } })
+
         } else {
-            this.setState({ users: newUsers })
-            //localStorage.setItem('users', JSON.stringify(newUsers));
+            this.setState({ data: { activeUser: this.state.data.activeUser, users: newUsers } })
+
         }
     }
 
@@ -143,8 +131,7 @@ class User extends Component {
 
     render() {
 
-        const { placeholder, title, activeUser, users, input, error, alertOn, deleteMode } = this.state;
-        const data = { activeUser, users }
+        const { placeholder, title, data, input, error, alertOn, deleteMode } = this.state;
         return <>
             <Alert color="info" isOpen={alertOn} toggle={this.onDismiss}>
                 {error}
