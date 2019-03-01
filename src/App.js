@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
-import  User  from './containers/User/User'
+import VideoPlayer from './components/VideoPlayer/VideoPlayer';
+import {BrowserRouter, Route} from 'react-router-dom'
+import SearchResults from './containers/SearchResults/SearchResults'
+import Search from './components/Search/Search'
+import User from './containers/User/User'
 
 class App extends Component {
+
   render() {
-    return (<>
+    return (
+      <React.Fragment>
       <div className="App">
-        <p>We are the best team! don't @ me</p>
+        <BrowserRouter>
+        <>
+          <Search />
+          <Route path='/results/:query' exact component={SearchResults} />
+          <Route path='/video/:video_id' exact component={VideoPlayer} />
+          <Route path='/Editor:/user' exact component={User} />
+        </>
+        </BrowserRouter>
       </div>
-      <User/>
-      </>
+         
+      </React.Fragment>
     );
   }
 }
