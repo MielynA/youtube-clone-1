@@ -1,35 +1,19 @@
-.yt-video {
-   text-align: center;
-   margin: 20px;
-   padding: 20px;
-
-}
-
-.ul { 
-    list-style-type: circle;
-}
-
 .videoFrame {
-   padding: 20px 20px 20px 100px;
+   padding: 20px 20px 20px 0px;
    margin: 20px;
    display: flex;
-
 }
-.row {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin-left: -4px;
-}
-
 .profile-image {
     height: 30px;
     width: 60px;
     border-radius: 50%;
 }
-
-.first-row {
-    padding: 20px 20px 20px 100px;
-    display: flex;
+.icon { 
+    height: 25px;
+}
+.btnStyle { 
+    margin-left: 25%;
+}
+.card-body {
+    padding: 0rem;
 }
