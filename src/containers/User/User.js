@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { UserList } from '../../components/Lists/UserList';
 import { AddNew } from '../../components/AddNew/AddNew';
 import { DeleteButtons } from '../../components/Lists/DeleteButtons';
@@ -153,4 +153,4 @@ class User extends Component {
     }
 }
 
-export default withRouter(User)
+export default withRouter(User);
