@@ -38,7 +38,7 @@ class Search extends React.Component {
                     <div className='col-1'></div>
                     <div style={{}} className='col-3'> 
                         <div style={{marginTop:'40px'}}>
-                            <a style={{color:'#757575'}}href='google.com'>Home</a>
+                            <a style={{color:'#757575'}}href='/'>Home</a>
                             <Link style={{marginLeft:'10px',color:'#757575'}} to='/Editor:/user'>Users</Link>
                             <Link style={{marginLeft:'10px',color:'#757575'}} to='/Editor:/feededitor'>Feed Editor</Link>
                         </div>
