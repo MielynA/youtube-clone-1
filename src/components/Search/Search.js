@@ -40,7 +40,7 @@ class Search extends React.Component {
                         <div style={{marginTop:'40px'}}>
                             <a style={{color:'#757575'}}href='google.com'>Home</a>
                             <Link style={{marginLeft:'10px',color:'#757575'}} to='/Editor:/user'>Users</Link>
-                            <Link style={{marginLeft:'10px',color:'#757575'}} to='/Edito:/feededitor'>Feed Editor</Link>
+                            <Link style={{marginLeft:'10px',color:'#757575'}} to='/Editor:/feededitor'>Feed Editor</Link>
                         </div>
                     </div>
                     

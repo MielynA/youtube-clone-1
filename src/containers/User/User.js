@@ -47,9 +47,9 @@ class User extends Component {
         );
         // saves if component has a chance to unmount
         this.saveStateToData(this.state)
-            .then(result => {
-                console.log(result)
-            });
+            // .then(result => {
+            //     console.log(result)
+            // });
     }
 
     saveStateToData = () => {
