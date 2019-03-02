@@ -1,5 +1,5 @@
 import React from 'react'
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import SearchGlass from '../../assets/Search.png'
 
 class Search extends React.Component {
@@ -24,21 +24,28 @@ class Search extends React.Component {
     render () {
         return (
             <>
-                <div className='row' style={{backgroundColor:'#111116'}}>
-                    <img className='col-2'style={{height:'60px',marginLeft:'15px',padding:'10px 15px 10px 15px',borderRadius:'5px'}} src='https://static1.squarespace.com/static/5b50ebb7e749401857e16f2f/t/5b6df1af03ce6411658ce1db/1550865626801/?format=1500w' alt='PictureGoesHere'/> 
-                    <div className='col-4' style={{}}>
-                        <div style={{marginLeft:'65px',marginTop:'15px'}}>
+                <div className='row' style={{height:'80px',backgroundColor:'#111116'}}>
+                    <img className='col-2'style={{height:'70px',marginLeft:'15px',padding:'10px 15px 10px 15px',borderRadius:'5px'}} src='https://static1.squarespace.com/static/5b50ebb7e749401857e16f2f/t/5b6df1af03ce6411658ce1db/1550865626801/?format=1500w' alt='PictureGoesHere'/> 
+                    <div className='col-2'></div>
+                    <div className='col-3' style={{}}>
+                        <div style={{height:'30px',marginLeft:'65px',marginTop:'40px',}}>
                             <form onSubmit={this.handleSearch}>
-                                <input style={{border:'none',color:'#757575',backgroundColor:'#111116',marginTop:'-5px'}} onChange={this.setQuery} type='text' name='query' placeholder='Search Youtube'/>
+                                <input style={{border:'none',color:'#757575',backgroundColor:'#111116',marginTop:''}} onChange={this.setQuery} type='text' name='query' placeholder='Search Youtube'/>
                                 <input style={{width:'20px',height:'18px',marginLeft:'10px'}} type='image' alt='' src={SearchGlass} name='submit' onClick={this.handleSearch}/>
                             </form>
                         </div>
                     </div>
-                    <div style={{}} className='col-5'> 
-                        <div style={{marginLeft:'110px',marginTop:'15px',}}>
+                    <div className='col-1'></div>
+                    <div style={{}} className='col-3'> 
+                        <div style={{marginTop:'40px'}}>
                             <a style={{color:'#757575'}}href='google.com'>Home</a>
+<<<<<<< HEAD
                             <a style={{marginLeft:'10px',color:'#757575'}} href='/Editor:/user'>Users</a>
                             <a style={{marginLeft:'10px',color:'#757575'}} href='/Editor:/feededitor'>Feed Editor</a>
+=======
+                            <Link style={{marginLeft:'10px',color:'#757575'}} to='/Editor:/user'>Users</Link>
+                            <Link style={{marginLeft:'10px',color:'#757575'}} to='/Edito:/feededitor'>Feed Editor</Link>
+>>>>>>> master
                         </div>
                     </div>
                     
