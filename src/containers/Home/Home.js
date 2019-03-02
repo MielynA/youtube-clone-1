@@ -54,14 +54,10 @@ class Home extends Component {
 
 
     render() {
-
-        //const {  title, data } = this.state;
         return <>
             <div className = "jumbotron jumbotron-fluid-fluid">
                <div className = "container">
                 <h1 className = "display-6">{this.state.data.activeUser}'s Personal Feed</h1>
-               
-                
             </div> {/* END OF CONTAINER */}
             </div> {/* END OF JUMBOTRON CONTAINER */ }
             <div className = 'container'>
