@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, CardBody } from 'reactstrap'
+import { Button, CardBody, Row, Col } from 'reactstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './videoPlayer.css';
 import axios from 'axios';
@@ -17,7 +17,7 @@ class VideoDetails extends React.Component {
       videoData: {},
       videoStat: {},
       videoComment: [],
-      videReplies: {},
+      relatedVideo: [],
       commentsIsLoading: true,
       expandDesc: false,
 
@@ -28,7 +28,7 @@ class VideoDetails extends React.Component {
       method: 'get',
       url: 'https://www.googleapis.com/youtube/v3/videos',
       params: {
-        part: 'id,snippet,statistics',
+        part: 'id,snippet,contentDetails,statistics',
         key: API_KEY,
         id: this.state.videoId,
       }
@@ -37,11 +37,10 @@ class VideoDetails extends React.Component {
         console.log(data);
         this.setState({
           videoData: data.data.items[0].snippet,
-          videoStat: data.data.items[0].statistics
+          videoStat: data.data.items[0].statistics,
         }, () => { })
       })
       .catch(err => {
-        console.log(err);
       });
   }
 
@@ -64,15 +63,36 @@ class VideoDetails extends React.Component {
         }, () => { })
       })
       .catch(err => {
-        console.log(err);
+      });
+  }
+
+  requestSearch = () => {
+    axios({
+      method: 'get',
+      url: 'https://www.googleapis.com/youtube/v3/search',
+      params: {
+        part: 'snippet',
+        relatedToVideoId: this.state.videoId,
+        key: API_KEY,
+        type: 'video',
+      }
+    })
+      .then((data) => {
+        console.log('forvideoComment', data.data);
+        this.setState({
+          relatedVideo: data.data.items,
+        }, () => { })
+      })
+      .catch(err => {
+
       });
   }
 
   componentDidMount() {
     this.getSpecificVideo()
     this.getCommentVideo()
+    this.requestSearch()
     this.notLoaded()
-
   }
 
   toggle = () => {
@@ -101,6 +121,7 @@ class VideoDetails extends React.Component {
     }
   }
 
+
   render() {
 
     const link = `https://www.youtube.com/embed/${this.state.videoId}?autoplay=1&fs=1&origin=http://localhost:3000`;
@@ -110,11 +131,19 @@ class VideoDetails extends React.Component {
         <div className='col'> {item.snippet.topLevelComment.snippet.authorDisplayName} </div>
         <div className='col'> {item.snippet.topLevelComment.snippet.textDisplay}</div></div></>
     })
+    const thumbnails = this.state.relatedVideo.map((items, i) => {
+      return <>
+        {console.log('thumbnails',items)}
+        <div className='col'><img alt='' src={items.snippet.thumbnails.default.url} /></div>
+      </>
+    })
 
     return (
       <React.Fragment>
-        <div className='row'>
-          <div className='container'>
+        
+          <div className='container-fluid'>
+          <Row form>
+            <Col>
             <div className='videoFrame'>
               <iframe title='yt-video'
                 allowFullScreen type='text/html'
@@ -122,7 +151,18 @@ class VideoDetails extends React.Component {
                 src={link}
                 frameBorder='0'>
               </iframe>
-            </div> {/* END OF ROW */}
+              </div>
+              </Col>
+              <Col>
+              <div className = 'container-fluid col-4'>
+        <h6>Because you've watched {this.state.videoData.channelTitle}</h6>
+              <div>{thumbnails}</div>
+              {/* <div>{this.state.videoData.channelTitle}</div>  */}
+        </div>
+        </Col>
+        </Row>
+            
+            <div>
             <div className='col-10'><h4>{this.state.videoData.title}</h4>
               <div className='row'>
                 <div className='col' >{this.state.videoData.channelTitle}</div>
@@ -148,13 +188,15 @@ class VideoDetails extends React.Component {
                 <div className='col'>
                   <h6>Comments:</h6>
                   {this.state.commentsIsLoading ? loading : showComments}
-                  <div className='col'>Replies:{this.state.videoReplies}</div>
+                  {/* <div className='col'>Replies:{this.state.videoReplies}</div> */}
                 </div>
               </div>
             </div> {/* END OF COL-10 VIDEO TITLE */}
           </div> {/* END OF VIDEO FRAME */}
         </div> {/* END OF CONTAINER */}
-
+       
+        
+        
       </React.Fragment>
     );
   }
