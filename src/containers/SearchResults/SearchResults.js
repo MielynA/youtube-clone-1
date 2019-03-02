@@ -45,7 +45,11 @@ class SearchResults extends React.Component {
     render () {
         return (
             <>  
-                {this.state.loadVideo?this.renderList():<p>Waiting to load</p>}
+                <div className='row justify-content-center'>
+                    <div className='col-8'>
+                        {this.state.loadVideo?this.renderList():<p>Waiting to load</p>}
+                    </div>
+                </div>
             </>
         )
     }
