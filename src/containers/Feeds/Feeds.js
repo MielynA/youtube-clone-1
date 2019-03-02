@@ -15,6 +15,7 @@ class Feeds extends Component {
             input: '',
             alertOn: false,
             error: '', //error message for alert, either invalid entry or existing feed
+            displayOnly: false,
         };
         this.onDismiss = this.onDismiss.bind(this);
     }
@@ -44,9 +45,7 @@ class Feeds extends Component {
         );
         // saves if component has a chance to unmount
         this.saveStateToData(this.state)
-            // .then(result => {
-            //     console.log(result)
-            // });
+         
     }
 
     saveStateToData = () => {
@@ -115,7 +114,7 @@ class Feeds extends Component {
 
     render() {
 
-        const { placeholder, title, data, input, error, alertOn } = this.state;
+        const { placeholder, title, data, input, error, alertOn, displayOnly} = this.state;
         return <>
             <Alert color="info" isOpen={alertOn} toggle={this.onDismiss}>
                 {error}
@@ -126,7 +125,7 @@ class Feeds extends Component {
                         <AddNew title={title} placeholder={placeholder} input={input} onKeyPress={this.handleAddClick} onClick={this.handleAddClick} onChange={this.handleOnchange} />
                     </Col>
                     <Col>
-                        <FeedsList data={data} title={title} onClick={this.deleteFeed} />
+                        <FeedsList data={data} title={title} onClick={this.deleteFeed} displayOnly={displayOnly} />
                     </Col>
                 </Row>
             </div>

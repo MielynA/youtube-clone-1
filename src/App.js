@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import VideoPlayer from './components/VideoPlayer/VideoPlayer';
+import VideoPlayer from './containers/VideoPlayer/VideoPlayer';
 import {BrowserRouter, Route} from 'react-router-dom'
 import SearchResults from './containers/SearchResults/SearchResults'
 import Search from './components/Search/Search'
