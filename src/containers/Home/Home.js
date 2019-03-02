@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { FeedsList } from '../../components/Feedlist/Feedlist';
 import Storage from '../../Services/storage'
-import { Col } from 'reactstrap';
+import { Col, Container } from 'reactstrap';
 
 
 class Home extends Component {
@@ -12,8 +12,9 @@ class Home extends Component {
             title: 'Feeds', //title for add form 
             data: { activeUser: 'Default', users: { 'Default': { 'feed': ['Music'] } } }, //app data
             displayOnly: true,
+            loading: false,
+            error: null
         };
-       
     }
 
     componentDidMount() {
@@ -25,8 +26,14 @@ class Home extends Component {
                     // handle empty string
                     this.setState({ data: this.state.data });
                 }
-            }
-            );
+            },
+                (error) => {
+                    this.setState({
+                        loading: true,
+                        error
+                    });
+                }
+            )
         window.addEventListener(
             "beforeunload",
             this.saveStateToData.bind(this)
@@ -41,7 +48,7 @@ class Home extends Component {
         );
         //saves if component has a chance to unmount
         this.saveStateToData(this.state)
-          
+
     }
 
     saveStateToData = () => {
@@ -54,24 +61,29 @@ class Home extends Component {
 
 
     render() {
-
-        //const {  title, data } = this.state;
-        return <>
-            <div className = "jumbotron jumbotron-fluid-fluid">
-               <div className = "container">
-                <h1 className = "display-6">{this.state.data.activeUser}'s Personal Feed</h1>
-               
-                
-            </div> {/* END OF CONTAINER */}
-            </div> {/* END OF JUMBOTRON CONTAINER */ }
-            <div className = 'container'>
-             <Col xs="3">
-            <FeedsList data={this.state.data} displayOnly={this.state.displayOnly}/>
-            </Col>
-            </div>
-            
-        </>
-
+        const { error, loading, data, displayOnly } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } if (loading) {
+            return <div>Loading...</div>;
+        } if (!loading) {
+            return <>
+            <Container style={{marginTop: '30px'}}>
+                <Container fluid>
+                    <div className="jumbotron jumbotron-fluid-fluid">
+                        <div className="container">
+                            <h1 className="display-6">{data.activeUser}'s Personal Feed</h1>
+                        </div> {/* END OF CONTAINER */}
+                    </div> {/* END OF JUMBOTRON CONTAINER */}
+                </Container>
+                <div className='container'>
+                    <Col xs="3">
+                        <FeedsList data={data} displayOnly={displayOnly} />
+                    </Col>
+                </div>
+                </Container>
+            </>
+        }
     }
 }
 

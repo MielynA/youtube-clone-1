@@ -13,7 +13,7 @@ const UserList = (props) => {
             let selected = ' '
             let buttonClass = `list-group-item list-group-item-action d-flex justify-content-between align-items-center`
             if (user === activeUser) {
-                selected = 'selected'
+                selected = 'Selected'
                 buttonClass = `list-group-item list-group-item-action active d-flex justify-content-between align-items-center`
             }
 

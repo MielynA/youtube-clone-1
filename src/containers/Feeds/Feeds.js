@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { AddNew } from '../../components/AddNew/AddNew';
 import { FeedsList } from '../../components/Feedlist/Feedlist';
 import Storage from '../../Services/storage'
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col, Alert, Container } from 'reactstrap';
 
 class Feeds extends Component {
     constructor(props) {
@@ -16,6 +16,8 @@ class Feeds extends Component {
             alertOn: false,
             error: '', //error message for alert, either invalid entry or existing feed
             displayOnly: false,
+            loading: false,
+            errorLoad: null
         };
         this.onDismiss = this.onDismiss.bind(this);
     }
@@ -29,8 +31,14 @@ class Feeds extends Component {
                     // handle empty string
                     this.setState({ data: this.state.data });
                 }
-            }
-            );
+            },
+                (errorLoad) => {
+                    this.setState({
+                        loading: true,
+                        errorLoad
+                    });
+                }
+            )
         window.addEventListener(
             "beforeunload",
             this.saveStateToData.bind(this)
@@ -45,7 +53,7 @@ class Feeds extends Component {
         );
         // saves if component has a chance to unmount
         this.saveStateToData(this.state)
-         
+
     }
 
     saveStateToData = () => {
@@ -100,7 +108,7 @@ class Feeds extends Component {
     deleteFeed = (index) => { //delete feed on X click
         const feedsArr = this.state.data.users[this.state.data.activeUser].feed;
         const feedToDelete = index
-        if (feedsArr.length === 1) { 
+        if (feedsArr.length === 1) {
             this.setState({ alertOn: true, input: '', error: 'Sorry, You Must Have At Least One Feed' });
 
         } else {
@@ -114,22 +122,31 @@ class Feeds extends Component {
 
     render() {
 
-        const { placeholder, title, data, input, error, alertOn, displayOnly} = this.state;
-        return <>
-            <Alert color="info" isOpen={alertOn} toggle={this.onDismiss}>
-                {error}
-            </Alert>
-            <div className="container-fluid">
-                <Row form>
-                    <Col>
-                        <AddNew title={title} placeholder={placeholder} input={input} onKeyPress={this.handleAddClick} onClick={this.handleAddClick} onChange={this.handleOnchange} />
-                    </Col>
-                    <Col>
-                        <FeedsList data={data} title={title} onClick={this.deleteFeed} displayOnly={displayOnly} />
-                    </Col>
-                </Row>
-            </div>
-        </>
+        const { placeholder, title, data, input, error, alertOn, displayOnly, errorLoad, loading } = this.state;
+
+        if (errorLoad) {
+            return <div>Error: {errorLoad.message}</div>;
+        } if (loading) {
+            return <div>Loading...</div>;
+        } if (!loading) {
+            return <>
+                <Container style={{marginTop: '30px'}}>
+                    <Alert color="info" isOpen={alertOn} toggle={this.onDismiss}>
+                        {error}
+                    </Alert>
+                    <div className="container-fluid">
+                        <Row form>
+                            <Col>
+                                <AddNew title={title} placeholder={placeholder} input={input} onKeyPress={this.handleAddClick} onClick={this.handleAddClick} onChange={this.handleOnchange} />
+                            </Col>
+                            <Col>
+                                <FeedsList data={data} title={title} onClick={this.deleteFeed} displayOnly={displayOnly} />
+                            </Col>
+                        </Row>
+                    </div>
+                </Container>
+            </>
+        }
     }
 }
 
