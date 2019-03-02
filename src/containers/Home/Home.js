@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
-//import { FeedsList } from '../../components/Feedlist/Feedlist';
+import { FeedsList } from '../../components/Feedlist/Feedlist';
 import Storage from '../../Services/storage'
-import { Row, Col } from 'reactstrap';
+import { Col } from 'reactstrap';
+
 
 class Home extends Component {
     constructor(props) {
@@ -10,9 +11,9 @@ class Home extends Component {
         this.state = {
             title: 'Feeds', //title for add form 
             data: { activeUser: 'Default', users: { 'Default': { 'feed': ['Music'] } } }, //app data
-
+            displayOnly: true,
         };
-       // this.onDismiss = this.onDismiss.bind(this);
+       
     }
 
     componentDidMount() {
@@ -26,23 +27,21 @@ class Home extends Component {
                 }
             }
             );
-        // window.addEventListener(
-        //     "beforeunload",
-        //    // this.saveStateToData.bind(this)
-        // );
+        window.addEventListener(
+            "beforeunload",
+            this.saveStateToData.bind(this)
+        );
 
     }
 
     componentWillUnmount() {
-        // window.removeEventListener(
-        //     "beforeunload",
-        //     this.saveStateToData.bind(this)
-        // );
-        // saves if component has a chance to unmount
+        window.removeEventListener(
+            "beforeunload",
+            this.saveStateToData.bind(this)
+        );
+        //saves if component has a chance to unmount
         this.saveStateToData(this.state)
-            // .then(result => {
-            //     console.log(result)
-            // });
+          
     }
 
     saveStateToData = () => {
@@ -58,16 +57,21 @@ class Home extends Component {
 
         //const {  title, data } = this.state;
         return <>
-            <div className="container-fluid">
-                <Row form>
-                    <Col>
-                    home
-                    </Col>
-                    <Col>
-                    </Col>
-                </Row>
+            <div className = "jumbotron jumbotron-fluid-fluid">
+               <div className = "container">
+                <h1 className = "display-6">{this.state.data.activeUser}'s Personal Feed</h1>
+               
+                
+            </div> {/* END OF CONTAINER */}
+            </div> {/* END OF JUMBOTRON CONTAINER */ }
+            <div className = 'container'>
+             <Col xs="3">
+            <FeedsList data={this.state.data} displayOnly={this.state.displayOnly}/>
+            </Col>
             </div>
+            
         </>
+
     }
 }
 
