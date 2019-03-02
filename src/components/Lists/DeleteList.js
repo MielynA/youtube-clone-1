@@ -4,9 +4,10 @@ import React from 'react';
 const DeleteList = (props) => {
     const data = props.data;
     const users = (Object.keys(data.users)).splice(1)
+    const title = props.title
 
     return <>
-        <h4>User List</h4>
+        <h4>{title} List</h4>
         <ul className="list-group">
             <li className="list-group-item disabled" aria-disabled="true">Default</li>
             {users.map((user, index) => {

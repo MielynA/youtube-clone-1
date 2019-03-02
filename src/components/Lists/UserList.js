@@ -3,13 +3,12 @@ import React from 'react';
 
 const UserList = (props) => {
     const data = props.data;
-    console.log(data)
     const activeUser = data.activeUser;
     const users = Object.keys(data.users);
-    console.log(users)
+    const title = props.title
 
     return <>
-        <h4>User List</h4>
+        <h4>{title} List</h4>
         {users.map((user, index) => {
             let selected = ' '
             let buttonClass = `list-group-item list-group-item-action d-flex justify-content-between align-items-center`
