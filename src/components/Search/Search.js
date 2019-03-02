@@ -38,7 +38,7 @@ class Search extends React.Component {
                         <div style={{marginLeft:'110px',marginTop:'15px',}}>
                             <a style={{color:'#757575'}}href='google.com'>Home</a>
                             <a style={{marginLeft:'10px',color:'#757575'}} href='/Editor:/user'>Users</a>
-                            <a style={{marginLeft:'10px',color:'#757575'}} href='twitter.com'>Feed Editor</a>
+                            <a style={{marginLeft:'10px',color:'#757575'}} href='/Editor:/feededitor'>Feed Editor</a>
                         </div>
                     </div>
                     

@@ -87,7 +87,7 @@ class User extends Component {
                     return;
                 }
                 else { //add new user
-                    const newUser = { [name]: { 'feed': null } }
+                    const newUser = { [name]: { 'feed': ['Baby shark'] } }
                     const newUsers = Object.assign(this.state.data.users, newUser)
                     this.setState({ data: { activeUser: this.state.data.activeUser, users: newUsers }, input: '', alertOn: false });
                 }
@@ -144,8 +144,8 @@ class User extends Component {
                         <DeleteButtons deleteMode={deleteMode} onClick={this.handleDeleteAll} click={this.deleteUserButton} />
                     </Col>
                     <Col>
-                        {deleteMode.show === false ? <UserList data={data} onClick={this.handleListClick} /> :
-                            <DeleteList data={data} onClick={this.deleteUser} />}
+                        {deleteMode.show === false ? <UserList data={data} title={title} onClick={this.handleListClick} /> :
+                            <DeleteList data={data} title={title} onClick={this.deleteUser} />}
                     </Col>
                 </Row>
             </div>
