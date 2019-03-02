@@ -5,7 +5,7 @@ import { AddNew } from '../../components/AddNew/AddNew';
 import { DeleteButtons } from '../../components/Lists/DeleteButtons';
 import { DeleteList } from '../../components/Lists/DeleteList';
 import Storage from '../../Services/storage'
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col, Alert, Container } from 'reactstrap';
 
 class User extends Component {
     constructor(props) {
@@ -17,7 +17,9 @@ class User extends Component {
             input: '',
             alertOn: false,
             error: '', //error message for alert, either invalid entry or existing user
-            deleteMode: { show: false, display: 'Delete User' } //delte individual users
+            deleteMode: { show: false, display: 'Delete User' }, //delte individual users
+            loading: false,
+            errorLoad: null
         };
         this.onDismiss = this.onDismiss.bind(this);
     }
@@ -31,8 +33,14 @@ class User extends Component {
                     // handle empty string
                     this.setState({ data: this.state.data });
                 }
-            }
-            );
+            },
+                (errorLoad) => {
+                    this.setState({
+                        loading: true,
+                        errorLoad
+                    });
+                }
+            )
         window.addEventListener(
             "beforeunload",
             this.saveStateToData.bind(this)
@@ -47,7 +55,7 @@ class User extends Component {
         );
         // saves if component has a chance to unmount
         this.saveStateToData(this.state)
-          
+
     }
 
     saveStateToData = () => {
@@ -129,25 +137,32 @@ class User extends Component {
     }
 
     render() {
-
-        const { placeholder, title, data, input, error, alertOn, deleteMode } = this.state;
-        return <>
-            <Alert color="info" isOpen={alertOn} toggle={this.onDismiss}>
-                {error}
-            </Alert>
-            <div className="container-fluid">
-                <Row form>
-                    <Col>
-                        <AddNew title={title} placeholder={placeholder} input={input} onKeyPress={this.handleAddClick} onClick={this.handleAddClick} onChange={this.handleOnchange} />
-                        <DeleteButtons deleteMode={deleteMode} onClick={this.handleDeleteAll} click={this.deleteUserButton} />
-                    </Col>
-                    <Col>
-                        {deleteMode.show === false ? <UserList data={data} title={title} onClick={this.handleListClick} /> :
-                            <DeleteList data={data} title={title} onClick={this.deleteUser} />}
-                    </Col>
-                </Row>
-            </div>
-        </>
+        const { placeholder, title, data, input, error, alertOn, deleteMode, errorLoad, loading } = this.state;
+        if (errorLoad) {
+            return <div>Error: {errorLoad.message}</div>;
+        } if (loading) {
+            return <div>Loading...</div>;
+        } if (!loading) {
+            return <>
+            <Container style={{marginTop: '30px'}}>
+                <Alert color="info" isOpen={alertOn} toggle={this.onDismiss}>
+                    {error}
+                </Alert>
+                <div className="container-fluid">
+                    <Row form>
+                        <Col>
+                            <AddNew title={title} placeholder={placeholder} input={input} onKeyPress={this.handleAddClick} onClick={this.handleAddClick} onChange={this.handleOnchange} />
+                            <DeleteButtons deleteMode={deleteMode} onClick={this.handleDeleteAll} click={this.deleteUserButton} />
+                        </Col>
+                        <Col>
+                            {deleteMode.show === false ? <UserList data={data} title={title} onClick={this.handleListClick} /> :
+                                <DeleteList data={data} title={title} onClick={this.deleteUser} />}
+                        </Col>
+                    </Row>
+                </div>
+                </Container>
+            </>
+        }
     }
 }
 
