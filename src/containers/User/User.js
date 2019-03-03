@@ -13,7 +13,7 @@ class User extends Component {
         this.state = {
             title: 'User', //title for add form 
             placeholder: "User's name", //placeholder for add form
-            data: { activeUser: 'Default', users: { 'Default': { 'feed': { 'music': [] } } } }, //app data
+            data: { activeUser: 'Default', users: { 'Default': { 'feed':  ['music'] } } }, //app data
             input: '',
             alertOn: false,
             error: '', //error message for alert, either invalid entry or existing user
@@ -109,7 +109,7 @@ class User extends Component {
         if (this.state.alertOn === false) { //alert before deleting all
             this.setState({ alertOn: true, error: 'You are about to DELETE ALL USERS. To continue click Delete All Users again. To cancel close this alert.' })
         } else { //second click, delete all
-            this.setState({ data: { 'activeUser': 'Default', users: { 'Default': { 'feed': { 'music': [] } } } }, alertOn: false });
+            this.setState({ data: { 'activeUser': 'Default', users: { 'Default': { 'feed':  ['music'] } } }, alertOn: false });
         }
     }
 

@@ -17,7 +17,7 @@ class SearchResults extends React.Component {
         'part=snippet'+
         '&maxResults=25'+
         `&q=${query}`+
-        '&key=AIzaSyA4ubJgvyUX269rBhXMyQTL_MR0wWPfRbg').then(
+        '&key=AIzaSyDz8Y-kxmUsaG8dRq0dvYqEq6UXE-jUFy4').then(
             (res)=>{
                 console.log(res.data)
                 this.setState({
