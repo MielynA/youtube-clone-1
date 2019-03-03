@@ -141,7 +141,7 @@ class VideoDetails extends React.Component {
     return (
       <React.Fragment>
 
-        <div className='container-fluid'>
+        <div className='container-fluid' style={{marginTop: '30px'}}>
           <Row form>
             <Col>
               <div className='videoFrame'>
