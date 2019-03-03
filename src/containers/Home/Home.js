@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { FeedsList } from '../../components/Feedlist/Feedlist';
 import Storage from '../../Services/storage'
-import { Col, Container } from 'reactstrap';
-
+import { Container } from 'reactstrap';
+import HomeFeedVideos from '../HomeFeedVideos/HomeFeedVideos'
 
 class Home extends Component {
     constructor(props) {
@@ -76,10 +76,13 @@ class Home extends Component {
                         </div> {/* END OF CONTAINER */}
                     </div> {/* END OF JUMBOTRON CONTAINER */}
                 </Container>
-                <div className='container'>
-                    <Col xs="3">
+                <div className='row'>
+                    <div style={{marginLeft:'30px'}} className='col-3'>
                         <FeedsList data={data} displayOnly={displayOnly} />
-                    </Col>
+                    </div>
+                    <div className='col-8'>
+                    <HomeFeedVideos/>
+                    </div>
                 </div>
                 </Container>
             </>
