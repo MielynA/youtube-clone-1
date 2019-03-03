@@ -30,7 +30,7 @@ class HomeFeedVideo extends React.Component {
         'part=snippet'+
         '&maxResults=12'+
         `&q=${query}`+
-        '&key=AIzaSyA4ubJgvyUX269rBhXMyQTL_MR0wWPfRbg')
+        '&key=AIzaSyDz8Y-kxmUsaG8dRq0dvYqEq6UXE-jUFy4')
     }
     componentDidMount () {
         Storage.getData()
